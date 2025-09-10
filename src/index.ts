@@ -80,7 +80,10 @@ api.post("/analyze", async c => {
               WHERE slug = ANY(${techs}::text[])
             `
 
-        if (stacks.length > 0) {
+        // Ensure stacks is an array
+        const stacksArray = Array.isArray(stacks) ? stacks : []
+
+        if (stacksArray.length > 0) {
           // Delete existing stack relationships for this tool
           await sql`
                 DELETE FROM "_StackToTool" 
@@ -88,7 +91,7 @@ api.post("/analyze", async c => {
               `
 
           // Insert new stack relationships
-          const stackToolRelations = stacks.map(stack => ({
+          const stackToolRelations = stacksArray.map(stack => ({
             A: stack.id,
             B: tool.id,
           }))
@@ -104,19 +107,19 @@ api.post("/analyze", async c => {
             tool: tool.name,
             repository: tool.repositoryUrl,
             techs: techs,
-            stacksMatched: stacks.map(s => s.slug),
+            stacksMatched: stacksArray.map(s => s.slug),
             status: "success",
           })
+        } else {
+          results.push({
+            tool: tool.name,
+            repository: tool.repositoryUrl,
+            techs: techs,
+            stacksMatched: [],
+            status: "success",
+            message: "No matching stacks found in database",
+          })
         }
-
-        results.push({
-          tool: tool.name,
-          repository: tool.repositoryUrl,
-          techs: techs,
-          stacksMatched: [],
-          status: "success",
-          message: "No matching stacks found in database",
-        })
       } catch (error) {
         console.error(`Error analyzing ${tool.name}:`, error)
         results.push({
