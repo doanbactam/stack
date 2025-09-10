@@ -3,9 +3,9 @@ import { Hono } from "hono"
 import { showRoutes } from "hono/dev"
 import { logger } from "hono/logger"
 import type { Row, RowList } from "postgres"
-import { analyzeRepositoryStack } from "./analyzer"
-import { sql } from "./db"
-import { env } from "./env"
+import { analyzeRepositoryStack } from "./analyzer.js"
+import { sql } from "./db.js"
+import { env } from "./env.js"
 
 const { NODE_ENV, PORT, API_KEY } = env()
 

@@ -4,7 +4,7 @@ import os from "node:os"
 import path from "node:path"
 import { type AllowedKeys, analyser, FSProvider, flatten } from "@specfy/stack-analyser"
 import { $ } from "execa"
-import { getRepositoryString } from "./helpers"
+import { getRepositoryString } from "./helpers.js"
 
 const getRepoInfo = (url: string) => {
   const repo = getRepositoryString(url)
