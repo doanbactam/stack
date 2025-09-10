@@ -4,13 +4,13 @@ type Repository = {
 }
 
 export const githubRegex =
-  /^(?:https?:\/\/)?github\.com\/(?<owner>[^/]+)\/(?<name>[a-zA-Z0-9._-]+?)(?:[/?#]|$)/
+  /^(?:https?:\/\/)?(?:github\.com\/)?(?<owner>[^/]+)\/(?<name>[a-zA-Z0-9._-]+?)(?:[/?#]|$)/
 
 /**
- * Extracts the repository owner and name from a GitHub URL.
+ * Extracts the repository owner and name from a GitHub URL or owner/repo format.
  *
- * @param url The GitHub URL from which to extract the owner and name.
- * @returns An object containing the repository owner and name, or null if the URL is invalid.
+ * @param url The GitHub URL or owner/repo string from which to extract the owner and name.
+ * @returns An object containing the repository owner and name, or throws error if invalid.
  */
 export const getRepository = (url: string): Repository => {
   const match = url.toLowerCase().match(githubRegex)
@@ -25,7 +25,7 @@ export const getRepository = (url: string): Repository => {
 /**
  * Returns the repository owner and name as a string.
  *
- * @param url The GitHub URL from which to extract the owner and name.
+ * @param url The GitHub URL or owner/repo string from which to extract the owner and name.
  * @returns The repository owner and name as a string.
  */
 export const getRepositoryString = (url: string) => {

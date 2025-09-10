@@ -135,7 +135,7 @@ api.post("/analyze", async c => {
     await processBatchWithErrorHandling(tools, processor, {
       batchSize: 3,
       onError: (error, tool) =>
-        console.error(`Failed to process tool ${tool.slug}:`, error.message),
+        console.error(`Failed to process tool ${tool.name}:`, error.message),
     })
 
     return c.json({
